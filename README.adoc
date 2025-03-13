@@ -1,0 +1,26 @@
+Simple Gradle library project to illustrate challenges with the sync process when there are failures due to api changes.
+
+The build works fine with Gradle 8.12.1, but fails with Gradle 8.13.
+The test suite property `testType` has been removed and effectively needs to be commented out.
+
+It is present in 3 locations, to observe different effects and impact.
+
+## Steps to reproduce
+
+1. Import the project in IntelliJ IDEA
+2. Confirm everything works
+3. Bump the wrapper version to 8.13
+4. Sync the project
+5. Observe the failure
+
+## Failures
+
+In all cases, if you go to the file failing the build, you will not see anything highlighted as an error.
+This is because the IDE still has the old 8.12.1 Gradle API and the code assistant believes the file content is correct.
+You can also see that typing `test` and then hitting the completion shortcut will offer `testType` as a completion option.
+
+Failure locations:
+
+* `gradle/build-logic/build.gradle.kts`
+* `gradle/build-logic/src/main/kotlin/custom.gradle.kts`
+* `lib/build.gradle.kts`
